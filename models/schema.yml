@@ -13,7 +13,7 @@ sources:
         identifier: raw_gz_ship
 
 
-models:
+sources:
    - name: raw
      schema: gz_raw_data
      tables:
