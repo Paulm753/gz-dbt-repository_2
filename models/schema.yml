@@ -1,19 +1,8 @@
 # schema.yml
-version: 2
 
-sources:
-  - name: raw
-    schema: gz_raw_data
-    tables:
-      - name: sales
-        identifier: raw_gz_sales
-      - name: product
-        identifier: raw_gz_product
-      - name: ship
-        identifier: raw_gz_ship
+ version: 2
 
-
-sources:
+ sources:
    - name: raw
      schema: gz_raw_data
      tables:
@@ -31,51 +20,30 @@ sources:
              description: the amount paid by the customer to purchase the product. revenue = quantity * selling_price
            - name: quanitity
              description: the quantity of products purchased for a given order
-
+         tests:
+           - unique:
+               column_name: "(orders_id || '-' || pdt_id)"
+           ## OR ## if dbt_utils is installed
+           - dbt_utils.unique_combination_of_columns:
+               combination_of_columns:
+                 - orders_id
+                 - pdt_id
        - name: product
          identifier: raw_gz_product
-         description: produst of Greenweez
+         description: products of Greenweez
          columns:
-           - name: products_id
-             description: Primary key
-           - name: purchase_price
-             description: the purchase price of the product
+          - name: products_id
+            description: Primary key
+            tests:
+              - unique
+              - not_null
 
        - name: ship
          identifier: raw_gz_ship
          description: shipping data for Greenweez orders
          columns:
-           - name: orders_id
-             description: Primary key
-           - name: shipping_fee
-             description: the price the customer pays for shipping
-           - name: log_cost
-             description: the cost of preparing the parcel in the distribution centre/warehouse
-           - name: ship_cost
-             description: shipping cost paid by Greenweez to the carrier/logistics provider
-
-version: 2
-
-sources:
-  - name: raw
-    schema: gz_raw_data
-    tables:
-      - name: sales
-        identifier: raw_gz_sales
-
-      - name: product
-        identifier: raw_gz_product
-        columns:
-          - name: products_id
-            tests:
-              - unique
-              - not_null
-
-      - name: ship
-        identifier: raw_gz_ship
-        columns:
           - name: orders_id
+            description: Primary key
             tests:
               - unique
               - not_null
-
