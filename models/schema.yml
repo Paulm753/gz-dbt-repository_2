@@ -1,8 +1,9 @@
+# schema.yml
 version: 2
 
 sources:
-  - name: raw # Alias used in dbt: {{ source('raw', 'sales') }}
-    schema: gz_raw_data # Actual BigQuery dataset name
+  - name: raw
+    schema: gz_raw_data
     tables:
       - name: sales
         identifier: raw_gz_sales
